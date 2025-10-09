@@ -1,0 +1,439 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(0.98 0 0);
+  --foreground: oklch(0.15 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0 0);
+  --primary: oklch(0.55 0.25 350);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.95 0 0);
+  --secondary-foreground: oklch(0.15 0 0);
+  --muted: oklch(0.95 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --accent: oklch(0.55 0.25 350);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.95 0 0);
+  --ring: oklch(0.55 0.25 350);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.55 0.25 350);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+
+/* Custom styles for Working Hours App */
+.mobile-container {
+  max-width: 400px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.auth-card {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  border-radius: 0 0 50% 50%;
+  transform: scale(1.2);
+  z-index: 0;
+}
+
+.auth-content {
+  position: relative;
+  z-index: 2; /* Garante que o conteúdo esteja acima do pseudo-elemento de fundo */
+  padding: 2rem;
+  padding-top: 4rem;
+}
+
+.form-input {
+  background: #f8f9fa;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.form-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+.primary-button {
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+}
+
+.secondary-button {
+  background: transparent;
+  color: #dc2626;
+  border: 2px solid #dc2626;
+  border-radius: 12px;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondary-button:hover {
+  background: #dc2626;
+  color: white;
+}
+
+.working-hours-form {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.bulk-entry {
+  border: 2px dashed #dc2626;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  background: #fef2f2;
+}
+
+.bulk-entry.active {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+
+/* Garantir que todos os registros múltiplos tenham fundo vermelho uniforme */
+.bulk-entry {
+  background: #fef2f2 !important;
+  border: 2px dashed #dc2626 !important;
+}
+
+.bulk-entry.active {
+  background: #fef2f2 !important;
+  border-color: #dc2626 !important;
+}
+
+.stats-card {
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1rem;
+  text-align: center;
+}
+
+.entry-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #dc2626;
+}
+
+.floating-action-button {
+  position: fixed;
+  bottom: 6rem; /* Aumentar distância do fundo para evitar sobreposição */
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  z-index: 50; /* Garantir que fique acima de outros elementos */
+}
+
+.floating-action-button:hover {
+  transform: scale(1.1);
+}
+
+.navigation-bar {
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  z-index: 40;
+  /* Aumentar espaço para a marca d'água */
+  padding-bottom: 5rem;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: color 0.3s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.nav-item.active {
+  color: #dc2626;
+}
+
+.nav-item:hover {
+  color: #dc2626;
+}
+
+.floating-action-button {
+  position: fixed;
+  bottom: 6rem; /* Ajustar para ficar acima da barra de navegação */
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  z-index: 30;
+}
+
+.floating-action-button:hover {
+  transform: scale(1.1);
+}
+
+.form-input {
+  padding-left: 2.5rem !important;
+  padding-right: 1rem !important;
+  min-height: 48px;
+  font-size: 16px; /* Previne zoom no iOS */
+}
+
+/* Melhorar responsividade do formulário */
+.working-hours-form {
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  margin: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.bulk-entry {
+  border: 2px dashed #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  background: #f9fafb;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bulk-entry.active {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+
+/* Ajustar grid para mobile */
+@media (max-width: 480px) {
+  .mobile-container {
+    padding-bottom: 12rem; /* Aumentar ainda mais o espaço para navegação e evitar sobreposição */
+  }
+  
+  .auth-content {
+    padding: 1.5rem;
+    padding-top: 3rem;
+  }
+  
+  .working-hours-form {
+    margin: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 8rem; /* Espaço extra para evitar sobreposição */
+  }
+  
+  .bulk-entry {
+    padding: 0.75rem;
+  }
+  
+  /* Ajustar grid do formulário para mobile */
+  .grid.grid-cols-2 {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .col-span-2 {
+    grid-column: span 1;
+  }
+  
+  .navigation-bar {
+    padding-bottom: 4rem; /* Aumentar espaço para marca d'água */
+  }
+  
+  .floating-action-button {
+    bottom: 5rem;
+    right: 1rem;
+  }
+}
+
+/* Estilos específicos para campos de input em mobile */
+@media (max-width: 480px) {
+  .form-input {
+    font-size: 16px !important; /* Previne zoom automático no iOS */
+    padding: 0.875rem 1rem 0.875rem 2.75rem !important; /* Ajustar padding-left para acomodar o ícone */
+  }
+  
+  input[type="date"], 
+  input[type="time"], 
+  input[type="number"], 
+  input[type="text"], 
+  input[type="email"], 
+  input[type="password"] {
+    font-size: 16px !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}
+
