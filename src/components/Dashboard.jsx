@@ -108,10 +108,27 @@ const Dashboard = () => {
     setShowForm(true);
   };
 
-  const handleFormSuccess = () => {
+    const handleFormSuccess = (updatedEntry = null) => {
     setShowForm(false);
     setEditingEntry(null);
-    fetchWorkingHours();
+    // Se uma entrada foi atualizada/criada, podemos tentar atualizar o estado localmente
+    if (updatedEntry) {
+      setWorkingHours(prevHours => {
+        const existingIndex = prevHours.findIndex(h => h.id === updatedEntry.id);
+        if (existingIndex > -1) {
+          // Atualizar entrada existente
+          const newHours = [...prevHours];
+          newHours[existingIndex] = updatedEntry;
+          return newHours;
+        } else {
+          // Adicionar nova entrada
+          return [updatedEntry, ...prevHours];
+        }
+      });
+    } else {
+      // Se não houver updatedEntry, buscar tudo novamente para garantir consistência
+      fetchWorkingHours();
+    }
     fetchStats();
   };
 

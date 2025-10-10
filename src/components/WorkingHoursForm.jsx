@@ -57,9 +57,10 @@ const WorkingHoursForm = ({ onClose, onSuccess, editingEntry }) => {
   }, [editingEntry]);
 
   const addEntry = () => {
+    const lastEntry = entries[entries.length - 1];
     setEntries([...entries, {
-      data: '',
-      ps: '',
+      data: lastEntry.data,
+      ps: lastEntry.ps,
       base: '',
       inicio: '',
       fim: '',
@@ -162,7 +163,7 @@ const WorkingHoursForm = ({ onClose, onSuccess, editingEntry }) => {
       const data = await response.json();
 
       if (response.ok) {
-        onSuccess();
+        onSuccess(data);
       } else {
         setError(data.error || 'Erro ao salvar dados');
       }
