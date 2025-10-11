@@ -29,7 +29,6 @@ const WorkingHoursForm = ({ onClose, onSuccess, editingEntry }) => {
     const [year, month, day] = dateString.split('-');
     return `${day}/${month}/${year}`;
   };
-
   const [entries, setEntries] = useState([{
     data: '',
     ps: '',
@@ -39,7 +38,6 @@ const WorkingHoursForm = ({ onClose, onSuccess, editingEntry }) => {
     numero_alunos: '',
     tipo_alunos: ''
   }]);
-
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -58,27 +56,17 @@ const WorkingHoursForm = ({ onClose, onSuccess, editingEntry }) => {
     }
   }, [editingEntry]);
 
-  // NOVO: herdar DATA/PS SEMPRE do registro 1 ao adicionar
   const addEntry = () => {
-    const first = entries[0] || {};
-    // Bloquear adicionar se Registro 1 não tiver DATA ou PS
-    if (!first.data || !first.ps) {
-      setError('Preencha Data e PS no Registro 1 antes de adicionar novos registros.');
-      return;
-    }
-    setError('');
-    setEntries(prev => [
-      ...prev,
-      {
-        data: first.data,      // herda do registro 1
-        ps: first.ps,          // herda do registro 1
-        base: '',
-        inicio: '',
-        fim: '',
-        numero_alunos: '',
-        tipo_alunos: ''
-      }
-    ]);
+    const lastEntry = entries[entries.length - 1];
+    setEntries([...entries, {
+      data: lastEntry.data,
+      ps: lastEntry.ps,
+      base: '',
+      inicio: '',
+      fim: '',
+      numero_alunos: '',
+      tipo_alunos: ''
+    }]);
   };
 
   const removeEntry = (index) => {
@@ -88,7 +76,6 @@ const WorkingHoursForm = ({ onClose, onSuccess, editingEntry }) => {
   };
 
   const updateEntry = (index, field, value) => {
-    setError('');
     const updatedEntries = [...entries];
     updatedEntries[index][field] = value;
     setEntries(updatedEntries);
@@ -97,7 +84,7 @@ const WorkingHoursForm = ({ onClose, onSuccess, editingEntry }) => {
   const validateEntry = (entry) => {
     const required = ['data', 'ps', 'base', 'inicio', 'fim', 'numero_alunos', 'tipo_alunos'];
     for (let field of required) {
-      if (!entry[field] || entry[field].trim?.() === '') {
+      if (!entry[field] || entry[field].trim() === '') {
         return `Campo ${field} é obrigatório`;
       }
     }
