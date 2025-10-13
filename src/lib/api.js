@@ -1,5 +1,6 @@
 // src/lib/api.js
 const API_BASE = import.meta.env.VITE_API_BASE || "/api";
+export async function apiFetch(path, options = {}) { ... }
 
 /**
  * apiFetch: wrapper de fetch que sempre envia cookies de sessão
