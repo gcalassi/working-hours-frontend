@@ -1,103 +1,60 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { apiFetch } from '@/lib/api';
 
 const AuthContext = createContext();
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
-
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    checkAuthStatus();
-  }, []);
-
-  const checkAuthStatus = async () => {
+  async function fetchMe() {
     try {
-      const response = await fetch('/api/me');
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
+      const res = await apiFetch('/me', { method: 'GET' });
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
+      } else {
+        setUser(null);
       }
-    } catch (error) {
-      console.error('Error checking auth status:', error);
+    } catch {
+      setUser(null);
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  const login = async (username, password) => {
+  useEffect(() => {
+    fetchMe();
+  }, []);
+
+  async function login(username, password) {
     try {
-      const response = await fetch('/api/login', {
+      const res = await apiFetch('/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({ username, password }),
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setUser(data.user);
-        return { success: true };
-      } else {
-        return { success: false, error: data.error };
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        return { success: false, error: data.error || 'Erro de conexão' };
       }
-    } catch (error) {
+      await fetchMe(); // carrega /me após login
+      return { success: true };
+    } catch {
       return { success: false, error: 'Erro de conexão' };
     }
-  };
+  }
 
-  const register = async (username, email, password) => {
+  async function logout() {
     try {
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        return { success: true, message: data.message };
-      } else {
-        return { success: false, error: data.error };
-      }
-    } catch (error) {
-      return { success: false, error: 'Erro de conexão' };
-    }
-  };
-
-  const logout = async () => {
-    try {
-      await fetch('/api/logout', { method: 'POST' });
-    } catch (error) {
-      console.error('Error logging out:', error);
+      await apiFetch('/logout', { method: 'POST' });
     } finally {
       setUser(null);
     }
-  };
+  }
 
-  const value = {
-    user,
-    login,
-    register,
-    logout,
-    loading,
-  };
+  const value = { user, loading, login, logout, refresh: fetchMe };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+export function useAuth() {
+  return useContext(AuthContext);
