@@ -1,7 +1,9 @@
+// src/contexts/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { apiFetch } from '@/lib/api';
 
 const AuthContext = createContext();
+
 export const useAuth = () => {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error('useAuth must be used within an AuthProvider');
@@ -18,8 +20,12 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await apiFetch('/me');
       if (res.ok) setUser(await res.json());
-    } catch {}
-    finally { setLoading(false); }
+      else setUser(null);
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const login = async (username, password) => {
@@ -29,7 +35,10 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ username, password }),
       });
       const data = await res.json().catch(() => ({}));
-      if (res.ok) { setUser(data.user); return { success: true }; }
+      if (res.ok) {
+        await checkAuthStatus(); // garante user atualizado
+        return { success: true };
+      }
       return { success: false, error: data.error || 'Credenciais inválidas' };
     } catch {
       return { success: false, error: 'Erro de conexão' };
@@ -43,20 +52,24 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ username, email, password }),
       });
       const data = await res.json().catch(() => ({}));
-      return res.ok ? { success: true, message: data.message } 
-                    : { success: false, error: data.error || 'Erro ao registrar' };
+      return res.ok
+        ? { success: true, message: data.message }
+        : { success: false, error: data.error || 'Erro ao registrar' };
     } catch {
       return { success: false, error: 'Erro de conexão' };
     }
   };
 
   const logout = async () => {
-    try { await apiFetch('/logout', { method: 'POST' }); }
-    finally { setUser(null); }
+    try {
+      await apiFetch('/logout', { method: 'POST' });
+    } finally {
+      setUser(null);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
