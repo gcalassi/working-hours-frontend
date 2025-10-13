@@ -1,6 +1,5 @@
 // src/lib/api.js
 const API_BASE = import.meta.env.VITE_API_BASE || "/api";
-export async function apiFetch(path, options = {}) { ... }
 
 /**
  * apiFetch: wrapper de fetch que sempre envia cookies de sessão
@@ -10,7 +9,7 @@ export async function apiFetch(path, options = {}) {
   const url = path.startsWith("http") ? path : `${API_BASE}${path}`;
 
   const defaultOpts = {
-    credentials: "include",
+    credentials: "include", // envia cookies
     headers: { "Content-Type": "application/json" },
   };
 
